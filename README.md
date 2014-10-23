@@ -1,8 +1,19 @@
-shopscript-module
-=================
+ShopScript module
+==============
 
-Integration module for CMS ShopScript
+ShopScript module for interaction with [IntaroCRM](http://www.intarocrm.com) through [REST API](http://docs.intarocrm.ru/rest-api/).
+Version: **3.0.1**
 
-* Version 1.14 - [Download](https://github.com/intarocrm/shopscript-module/archive/v.1.14.zip) - [Readme](https://github.com/intarocrm/shopscript-module/blob/v.1.14/README.md)
-* Version 1.24 - [Download](https://github.com/intarocrm/shopscript-module/archive/v.1.24.zip) - [Readme](https://github.com/intarocrm/shopscript-module/blob/v.1.24/README.md)
+Supported versions:
+* 1.14
+* 1.24
 
+Module allows:
+
+* Send to IntaroCRM new orders
+* Configure relations between dictionaries of IntaroCRM and ShopScript (statuses, payments, delivery types and etc)
+* Generate [ICML](http://docs.intarocrm.ru/index.php?n=Пользователи.ФорматICML) (IntaroCRM Markup Language) for catalog loading by IntaroCRM
+
+#### Documentation
+
+* [Install](doc/Install.md)

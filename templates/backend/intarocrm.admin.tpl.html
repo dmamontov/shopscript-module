@@ -1,0 +1,146 @@
+{* intarocrm module *}
+{literal}
+<style>
+select{
+	width: 245px;
+}
+.message{
+	width: 90%;
+	margin: 0 auto;
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+</style>
+<script type="text/javascript">	
+	function checkFields(form)
+	{
+		var url = form.elements['url'].value;
+		var apiKey = form.elements['apiKey'].value;
+		
+		if(url==''){
+			alert('Адрес IntaroCRM не может быть пустым');
+			form.elements['url'].focus();
+			return false;
+		}
+		if(apiKey==''){
+			alert('API Ключ не может быть пустым');
+			form.elements['apiKey'].focus();
+			return false;
+		}
+		return true;
+	}
+</script>
+{/literal}
+{if $smarty.const.CONF_BACKEND_SAFEMODE eq 1}
+	<p>{$smarty.const.ADMIN_SAFEMODE_BLOCKED}</p>
+{/if}
+{if $crmData.url neq ''}
+	<div class="message">
+		<strong>Внимание!</strong> Часовой пояс в CRM должен совпадать с часовым поясом в магазине, настройки часового пояса CRM можно задать по адресу:
+		<a href="{$crmData.url}/admin/settings#t-main">{$crmData.url}/admin/settings#t-main</a>
+	</div>
+{/if}
+
+<h2>Настройки соединения</h2>
+<hr>
+<form action="/admin.php?dpt=modules&amp;sub=intarocrm" method="POST" enctype="multipart/form-data" name="intaroForm" onSubmit="return checkFields(this)">
+	
+	<input type="hidden" name="action" value="save">
+	<table>
+		<tr>
+			<td align="right" valign="top">Адрес IntaroCRM:</td>
+			<td><input id="url" type="text" name="url" size="50" value="{$crmData.url}"></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top">API Ключ:</td>
+			<td><input id="apiKey" type="text" name="apiKey" size="50" value="{$crmData.apiKey}"></td>
+		</tr>
+	</table>
+	{if $authData eq 1}
+	<br>
+	<h2>Способы доставки</h2>
+	<hr>
+	<table>
+	{foreach from=$printData.deliveryTypes key=key item=name}
+		<tr>
+			<td align="right" valign="top">
+				<select name="delivery[]">
+					<option>-</option>
+					{foreach from=$printData.shipingModules key=keyTwo item=nameTwo}
+					<option value="{$keyTwo}|{$key}" {if $crmData.delivery.$key eq $keyTwo}selected{/if}>{$nameTwo}</option>
+					{/foreach}
+				</select>
+			</td>
+			<td>{$name}</td>
+		</tr>
+	{/foreach}	
+	</table>
+	<br>
+	<h2>Статусы</h2>
+	<hr>
+	<table>
+		{foreach from=$printData.orderStatusesList key=key item=name}
+		<tr>
+			<td align="right" valign="top">
+				<select name="statusses[]">
+					<option>-</option>
+					{foreach from=$printData.orderStatuses key=keyTwo item=nameTwo}
+					<option value="{$keyTwo}|{$key}" {if $crmData.statusses.$key eq $keyTwo}selected{/if}>{$nameTwo}</option>
+					{/foreach}
+				</select>
+			</td>
+			<td>{$name}</td>
+		</tr>
+		{/foreach}
+	</table>
+	<br>
+	<h2>Способы оплаты</h2>
+	<hr>
+	<table>
+		{foreach from=$printData.paymentTypesList key=key item=name}
+		<tr>
+			<td align="right" valign="top">
+				<select name="payment[]">
+					<option>-</option>
+					{foreach from=$printData.paymentMethods key=keyTwo item=nameTwo}
+					<option value="{$keyTwo}|{$key}" {if $crmData.payment.$key eq $keyTwo}selected{/if}>{$nameTwo}</option>
+					{/foreach}
+				</select>
+			</td>
+			<td>{$name}</td>
+		</tr>
+		{/foreach}
+	</table>
+	<br>
+    <h2>Дополнительные поля</h2>
+    <table>
+        {foreach from=$printData.param key=key item=name}
+        <tr>
+            <td align="right" valign="top">
+                <select name="params[]">
+                    <option>-</option>
+                    {foreach from=$printData.params key=keyTwo item=nameTwo}
+                    <option value="{$keyTwo}|{$key}" {if $crmData.payment.$key eq $keyTwo}selected{/if}>{$nameTwo}</option>
+                    {/foreach}
+                </select>
+            </td>
+            <td>{$name}</td>
+        </tr>
+        {/foreach}
+    </table>
+	{/if}
+
+	<br>
+	<table>
+		<tr>
+			<td align="right" valign="top">&nbsp;</td>
+			<td><input id="btnSave" type="submit" value="Сохранить"></td>
+		</tr>
+	</table>
+	
+</form>
