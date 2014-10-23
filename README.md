@@ -2,6 +2,7 @@ ShopScript module
 ==============
 
 ShopScript module for interaction with [IntaroCRM](http://www.intarocrm.com) through [REST API](http://docs.intarocrm.ru/rest-api/).
+<br>
 Version: **3.0.1**
 
 Supported versions:
